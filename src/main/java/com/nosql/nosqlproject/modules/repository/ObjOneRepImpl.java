@@ -45,7 +45,7 @@ public class ObjOneRepImpl implements Repository {
         operations.add(Aggregation.limit(15));
 //        生成聚合查询
         Aggregation aggregation =  Aggregation.newAggregation(operations);
-        System.out.println(aggregation);
+
         AggregationResults<ObjOne> results = mongoTemplate.aggregate(aggregation, "house", ObjOne.class);
         List<ObjOne> resultList = results.getMappedResults();
 
