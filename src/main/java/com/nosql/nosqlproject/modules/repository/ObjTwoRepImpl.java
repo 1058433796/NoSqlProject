@@ -24,7 +24,7 @@ public class ObjTwoRepImpl implements Repository {
 //        添加city过滤
         if(city != null) operations.add(Aggregation.match(Criteria.where("city").is(city)));
 //        添加month过滤
-        if(month != null) operations.add(Aggregation.match(Criteria.where("month").is(month)));
+        if(month != null) operations.add(Aggregation.match(Criteria.where("base_info.month").is(month)));
 //        聚合操作
         operations.add(Aggregation.group("city", "month:$base_info.month")
                 .first("city").as("city")
