@@ -54,11 +54,21 @@ public class ObjOneRepImpl implements Repository {
             Query query = new Query(Criteria.where("city").is(objOne.getCity())
                     .and("lease_mode").is(objOne.getLeaseMode())
                     .and("base_info.types").is(objOne.getTypes()))
-                    .with(Sort.by(Sort.Direction.ASC, "price"))
-                    .skip(objOne.getCount() / 2 - 1).limit(1);
+                    .with(Sort.by(Sort.Direction.ASC, "price"));
             query.fields().include("price");
-            Float price = mongoTemplate.findOne(query, ObjOne.class, "house").getPrice();
-            objOne.setMedium(price);
+            Float medium = null;
+            if(objOne.getCount() % 2 != 0){
+//                奇数 取中间数
+                query.skip(objOne.getCount() / 2).limit(1);
+                medium = mongoTemplate.findOne(query, ObjOne.class, "house").getPrice();
+
+            }else{
+//                偶数 取平均值
+                query.skip(objOne.getCount() / 2 - 1).limit(2);
+                List<ObjOne> oneList = mongoTemplate.find(query, ObjOne.class, "house");
+                medium = (oneList.get(0).getPrice() + oneList.get(1).getPrice()) / 2.0F;
+            }
+            objOne.setMedium(medium);
         }
         return resultList;
     }

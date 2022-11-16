@@ -1,5 +1,5 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://rwuser:XXX:8635/?authSource=admin
-      database: XXX
+      uri: mongodb://rwuser:mongo_SDU2022@123.249.29.154:8635/?authSource=admin
+      database: LYJ202215223
